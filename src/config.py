@@ -19,8 +19,9 @@ class Config:
     db_user: str = field(default_factory=lambda: os.getenv("DB_USER", "postgres"))
     db_password: str = field(default_factory=lambda: os.getenv("DB_PASSWORD", ""))
 
-    # Embeddings
-    openai_api_key: str = field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
+    # LiteLLM Embeddings
+    litellm_base_url: str = field(default_factory=lambda: os.getenv("LITELLM_BASE_URL", "http://localhost:4000"))
+    litellm_api_key: str = field(default_factory=lambda: os.getenv("LITELLM_API_KEY", "dummy"))
     embedding_model: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"))
     embedding_dim: int = field(default_factory=lambda: int(os.getenv("EMBEDDING_DIM", "1536")))
 
@@ -34,8 +35,8 @@ class Config:
             errors.append("CONFLUENCE_URL is required")
         if not self.confluence_token:
             errors.append("CONFLUENCE_TOKEN is required")
-        if not self.openai_api_key:
-            errors.append("OPENAI_API_KEY is required")
+        if not self.litellm_base_url:
+            errors.append("LITELLM_BASE_URL is required")
         if not self.db_password and self.db_user != "postgres":
             errors.append("DB_PASSWORD is required")
         if errors:

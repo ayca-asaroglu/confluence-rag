@@ -4,5 +4,6 @@ lxml>=5.1.0
 psycopg2-binary>=2.9.9
 pgvector>=0.2.4
 openai>=1.14.0
+litellm>=1.40.0
 python-dotenv>=1.0.1
 tqdm>=4.66.0
