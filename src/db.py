@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS confluence_chunks (
 CREATE_INDEX = """
 CREATE INDEX IF NOT EXISTS confluence_chunks_embedding_idx
 ON confluence_chunks
-USING ivfflat (embedding vector_cosine_ops)
-WITH (lists = 100);
+USING hnsw (embedding vector_cosine_ops)
+WITH (m = 16, ef_construction = 64);
 """
 
 UPSERT = """
