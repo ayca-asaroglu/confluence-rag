@@ -26,8 +26,9 @@ class Config:
     # LiteLLM Embeddings
     litellm_base_url: str = field(default_factory=lambda: os.getenv("LITELLM_BASE_URL", "http://localhost:4000"))
     litellm_api_key: str = field(default_factory=lambda: os.getenv("LITELLM_API_KEY", "dummy"))
-    embedding_model: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"))
+    embedding_model: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "llama-embed-nemotron-8b"))
     embedding_dim: int = field(default_factory=lambda: int(os.getenv("EMBEDDING_DIM", "1536")))
+    embedding_timeout: int = field(default_factory=lambda: int(os.getenv("EMBEDDING_TIMEOUT", "120")))
 
     # Chunking
     chunk_size: int = field(default_factory=lambda: int(os.getenv("CHUNK_SIZE", "1000")))
