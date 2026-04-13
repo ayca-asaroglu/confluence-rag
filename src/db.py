@@ -60,9 +60,16 @@ class VectorDB:
         with self.conn.cursor() as cur:
             cur.execute(CREATE_EXTENSION)
             cur.execute(CREATE_TABLE.format(dim=dim))
-            cur.execute(CREATE_INDEX)
         self.conn.commit()
-        logger.info("DB şeması hazır.")
+
+        try:
+            with self.conn.cursor() as cur:
+                cur.execute(CREATE_INDEX)
+            self.conn.commit()
+            logger.info("DB şeması ve hnsw index hazır.")
+        except Exception as e:
+            self.conn.rollback()
+            logger.warning(f"hnsw index oluşturulamadı, indexsiz devam edilecek: {e}")
 
     def upsert_chunks(
         self,
