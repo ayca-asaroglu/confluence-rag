@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass, field
+from typing import List
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,6 +12,9 @@ class Config:
     confluence_url: str = field(default_factory=lambda: os.getenv("CONFLUENCE_URL", "").rstrip("/"))
     confluence_username: str = field(default_factory=lambda: os.getenv("CONFLUENCE_USERNAME", ""))
     confluence_token: str = field(default_factory=lambda: os.getenv("CONFLUENCE_TOKEN", ""))
+    confluence_space_keys: List[str] = field(
+        default_factory=lambda: [k.strip() for k in os.getenv("CONFLUENCE_SPACE_KEY", "").split(",") if k.strip()]
+    )
 
     # Database
     db_host: str = field(default_factory=lambda: os.getenv("DB_HOST", "localhost"))
@@ -35,6 +39,8 @@ class Config:
             errors.append("CONFLUENCE_URL is required")
         if not self.confluence_token:
             errors.append("CONFLUENCE_TOKEN is required")
+        if not self.confluence_space_keys:
+            errors.append("CONFLUENCE_SPACE_KEY is required")
         if not self.litellm_base_url:
             errors.append("LITELLM_BASE_URL is required")
         if not self.db_password and self.db_user != "postgres":
